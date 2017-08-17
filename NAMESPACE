@@ -1,1 +1,6 @@
 exportPattern("^[[:alpha:]]+")
+export(IterativeFunction)
+
+importFrom("psych", "tr")
+importFrom("rootSolve", "multiroot")
+importFrom("stats", "uniroot")
