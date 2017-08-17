@@ -1,3 +1,5 @@
+context("Creating GEEs")
+
 betas <- c(1, 1)
 rho <- 0
 data <- matrix(1, 3, 3)

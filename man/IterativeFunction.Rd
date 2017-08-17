@@ -16,7 +16,7 @@ IterativeFunction(num.iter, thresholds, data, RHO = FALSE)
 \item{RHO}{if FALSE, rho will not be estimated}
 }
 \value{
-...
+matrix of parameters (probabilities and rho)
 }
 \description{
 Iteratively finds coefficients and overdispersion parameter using

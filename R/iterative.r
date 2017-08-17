@@ -40,16 +40,16 @@ IterativeFunction <- function(num.iter, thresholds, data, RHO=FALSE) {
       # solve beta equations
       db2 <- multiroot(f = CreateBetaEquations,
                        start = betas.prev,
-                       rho,
-                       data)
+                       rho = rho,
+                       data = data)
       # update betas
       betas <- db2$root
       rho.prev <- rho
       # solve rho equations
       db3 <- uniroot(f = CreateRhoEquations,
                      interval = c(0, 1),
-                     betas,
-                     data)
+                     betas = betas,
+                     data = data)
       # update rho
       rho <- db3$root
       iter <- iter + 1
@@ -60,6 +60,5 @@ IterativeFunction <- function(num.iter, thresholds, data, RHO=FALSE) {
   params.mat <- c(p.vec, 1 - sum(p.vec), rho, iter)
   names(params.mat) <- c( sprintf("P%d", seq(1:n)), "Rho", "Num. Iterations" )
 
-  # result
   params.mat
 }
