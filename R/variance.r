@@ -16,7 +16,7 @@ GetIdentityVariance <- function (p.vec, rho, dat) {
 
   # helper vars
   rho.sq <- rho ^ 2
-  dispi = ni * (1 + (ni - 1) * rho.sq)
+  dispi <- ni * (1 + (ni - 1) * rho.sq)
   p.mat <- matrix(p.vec, num.clus, m, byrow = TRUE)
 
   r.vec <- dat[, 1:m] - ni * p.mat

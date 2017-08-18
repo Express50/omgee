@@ -17,17 +17,17 @@ CreateBetaEquations <- function (betas, rho, dat) {
   betas.exp <- exp(betas)
   rho.sq <- rho ^ 2
   denom <- 1 + sum(betas.exp)
-  kC <- ni / (ni * (1 + (ni - 1) * rho.sq))
+  dispi <- (ni * (1 + (ni - 1) * rho.sq))
   p.vec <- as.vector(betas.exp / denom)
   p.mat <- matrix(p.vec, num.clus, m, byrow = TRUE)
 
   # create matrices
   d.mat <- diag( betas.exp * denom, m ) - betas.exp %*% t( betas.exp ) / (denom ^ 2)
   var.mat <- diag( p.vec, m ) - p.vec %*% t( p.vec )
-  r.vec <- kC * dat[, 1:m] - ni * p.mat
+  r.vec <- dat[, 1:m] - ni * p.mat
 
   # result
-  d.mat %*% solve(var.mat) %*% rowSums( t(r.vec) )
+  d.mat %*% solve(var.mat) %*% rowSums( t((ni / dispi) * r.vec) )
 }
 
 #' GEE Rho Equations
@@ -49,15 +49,14 @@ CreateRhoEquations <- function (rho, betas, dat) {
   betas.exp <- exp(betas)
   rho.sq <- rho ^ 2
   denom <- 1 + sum(betas.exp)
-  dispi = ni * (1 + (ni - 1) * rho.sq)
-  kC <- 1 / dispi
+  dispi <- ni * (1 + (ni - 1) * rho.sq)
   p.vec <- as.vector(betas.exp / denom)
   p.mat <- matrix(p.vec, num.clus, m, byrow = TRUE)
 
   # create matrices
+  var.mat <- diag(p.vec, m) - p.vec %*% t(p.vec)
   r.vec <- dat[, 1:m] - ni * p.mat
-  var.mat = diag(p.vec, m) - p.vec %*% t(p.vec)
 
-  res <- tr( r.vec %*% solve(var.mat) %*% t(kC * r.vec) ) - m * (num.clus - 1)
+  res <- tr( r.vec %*% solve(var.mat) %*% t( (1 / dispi) * r.vec) ) - m * (num.clus - 1)
   res
 }
