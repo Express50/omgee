@@ -5,13 +5,13 @@
 #'
 #' @param num.iter max number of iterations
 #' @param thresholds vector of thresholds for betas and rho
-#' @param data matrix of multinomial clusters
+#' @param dat matrix of multinomial clusters
 #' @param RHO if FALSE, rho will not be estimated
 #'
 #' @return matrix of parameters (probabilities and rho)
 #' @export
-IterativeFunction <- function(num.iter, thresholds, data, RHO=FALSE) {
-  n <- dim(data)[[2]]
+IterativeFunction <- function(num.iter, thresholds, dat, RHO=FALSE) {
+  n <- dim(dat)[[2]]
   m <- n - 1
   betas.prev <- numeric(m) + 1
   rho.prev <- 0
@@ -26,7 +26,7 @@ IterativeFunction <- function(num.iter, thresholds, data, RHO=FALSE) {
     db2 <- multiroot(f = CreateBetaEquations,
                      start = betas.prev,
                      rho = rho,
-                     data = data)
+                     dat = dat)
     # update betas
     betas <- db2$root
     rho <- 0
@@ -41,7 +41,7 @@ IterativeFunction <- function(num.iter, thresholds, data, RHO=FALSE) {
       db2 <- multiroot(f = CreateBetaEquations,
                        start = betas.prev,
                        rho = rho,
-                       data = data)
+                       dat = dat)
       # update betas
       betas <- db2$root
       rho.prev <- rho
@@ -49,7 +49,7 @@ IterativeFunction <- function(num.iter, thresholds, data, RHO=FALSE) {
       db3 <- uniroot(f = CreateRhoEquations,
                      interval = c(0, 1),
                      betas = betas,
-                     data = data)
+                     dat = dat)
       # update rho
       rho <- db3$root
       iter <- iter + 1

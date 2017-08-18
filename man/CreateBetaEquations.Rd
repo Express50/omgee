@@ -4,14 +4,14 @@
 \alias{CreateBetaEquations}
 \title{GEE Beta Equations}
 \usage{
-CreateBetaEquations(betas, rho, data)
+CreateBetaEquations(betas, rho, dat)
 }
 \arguments{
 \item{betas}{vector of coefficients}
 
 \item{rho}{overdispersion parameter}
 
-\item{data}{matrix of multinomial clusters}
+\item{dat}{matrix of multinomial clusters}
 }
 \value{
 estimating equations for betas

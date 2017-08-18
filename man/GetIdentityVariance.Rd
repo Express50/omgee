@@ -4,17 +4,17 @@
 \alias{GetIdentityVariance}
 \title{Get GEE Identity Variance}
 \usage{
-GetIdentityVariance(p.vec, rho, data)
+GetIdentityVariance(p.vec, rho, dat)
 }
 \arguments{
 \item{p.vec}{vector of probabilities}
 
 \item{rho}{overdispersion parameter}
 
-\item{data}{matrix of multinomial clusters}
+\item{dat}{matrix of multinomial clusters}
 }
 \value{
-standard error
+vector of standard errors
 }
 \description{
 Calculates GEE identity variance.

@@ -4,23 +4,23 @@
 #'
 #' @param p.vec vector of probabilities
 #' @param rho overdispersion parameter
-#' @param data matrix of multinomial clusters
+#' @param dat matrix of multinomial clusters
 #'
-#' @return standard error
+#' @return vector of standard errors
 #' @export
-GetIdentityVariance <- function (p.vec, rho, data) {
-  n <- dim(data)[[2]]  # dimensions of multinom
+GetIdentityVariance <- function (p.vec, rho, dat) {
+  n <- dim(dat)[[2]]  # dimensions of multinom
   m <- n - 1  # order of multinom
-  ni <- rowSums(data) # cluster sizes
-  num.clus <- dim(data)[[1]]
+  ni <- rowSums(dat) # cluster sizes
+  num.clus <- dim(dat)[[1]]
 
   # helper vars
   rho.sq <- rho ^ 2
   dispi = ni * (1 + (ni - 1) * rho.sq)
   p.mat <- matrix(p.vec, num.clus, m, byrow = TRUE)
 
-  r.vec <- data[, 1:m] - ni * p.mat
-  var.mat <- diag(p.vec, m) - p.vec %*% t(p.vec)
+  r.vec <- dat[, 1:m] - ni * p.mat
+  var.mat <- diag(p.vec, n) - p.vec %*% t(p.vec)
   var.mat.inv <- solve(var.mat)
 
   Bi <- var.mat.inv * sum(ni ^ 2 / dispi)

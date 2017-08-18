@@ -4,14 +4,14 @@
 \alias{CreateRhoEquations}
 \title{GEE Rho Equations}
 \usage{
-CreateRhoEquations(rho, betas, data)
+CreateRhoEquations(rho, betas, dat)
 }
 \arguments{
 \item{rho}{overdispersion parameter}
 
 \item{betas}{vector of coefficients}
 
-\item{data}{matrix of multinomial clusters}
+\item{dat}{matrix of multinomial clusters}
 }
 \value{
 estimating equations for rho

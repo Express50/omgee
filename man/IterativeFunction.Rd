@@ -4,14 +4,14 @@
 \alias{IterativeFunction}
 \title{Iterative GEE Function}
 \usage{
-IterativeFunction(num.iter, thresholds, data, RHO = FALSE)
+IterativeFunction(num.iter, thresholds, dat, RHO = FALSE)
 }
 \arguments{
 \item{num.iter}{max number of iterations}
 
 \item{thresholds}{vector of thresholds for betas and rho}
 
-\item{data}{matrix of multinomial clusters}
+\item{dat}{matrix of multinomial clusters}
 
 \item{RHO}{if FALSE, rho will not be estimated}
 }
