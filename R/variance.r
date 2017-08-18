@@ -20,7 +20,7 @@ GetIdentityVariance <- function (p.vec, rho, dat) {
   p.mat <- matrix(p.vec, num.clus, m, byrow = TRUE)
 
   r.vec <- dat[, 1:m] - ni * p.mat
-  var.mat <- diag(p.vec, n) - p.vec %*% t(p.vec)
+  var.mat <- diag(p.vec, m) - p.vec %*% t(p.vec)
   var.mat.inv <- solve(var.mat)
 
   Bi <- var.mat.inv * sum(ni ^ 2 / dispi)
