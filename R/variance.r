@@ -1,14 +1,14 @@
-#' Get GEE Identity Variance
+#' Get GEE Identity Co-Variance Matrix
 #'
-#' Calculates GEE identity variance.
+#' Calculates GEE identity variance co-variance matrix.
 #'
 #' @param p.vec vector of probabilities
 #' @param rho overdispersion parameter
 #' @param dat matrix of multinomial clusters
 #'
-#' @return vector of standard errors
+#' @return matrix of covariance
 #' @export
-GetIdentityVariance <- function (p.vec, rho, dat) {
+GetIdentityVarCov <- function (p.vec, rho, dat) {
   n <- dim(dat)[[2]]  # dimensions of multinom
   m <- n - 1  # order of multinom
   ni <- rowSums(dat) # cluster sizes
@@ -35,7 +35,5 @@ GetIdentityVariance <- function (p.vec, rho, dat) {
   }
 
   cov.mat <- (num.clus / (num.clus - 1)) * (solve(Bi) %*% Mi %*% solve(Bi))
-  se <- sqrt(diag(cov.mat))
-
-  se
+  cov.mat
 }

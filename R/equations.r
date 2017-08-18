@@ -22,7 +22,7 @@ CreateBetaEquations <- function (betas, rho, dat) {
   p.mat <- matrix(p.vec, num.clus, m, byrow = TRUE)
 
   # create matrices
-  d.mat <- diag( betas.exp * denom, m ) - betas.exp %*% t( betas.exp ) / (denom ^ 2)
+  d.mat <- (diag( betas.exp * denom, m ) - betas.exp %*% t( betas.exp )) / (denom ^ 2)
   var.mat <- diag( p.vec, m ) - p.vec %*% t( p.vec )
   r.vec <- dat[, 1:m] - ni * p.mat
 
