@@ -3,15 +3,17 @@
 #' Iteratively finds coefficients and overdispersion parameter using
 #' estimating equations.
 #'
-#' @param num.iter max number of iterations
-#' @param thresholds vector of thresholds for betas and rho
 #' @param dat matrix of multinomial clusters
 #' @param RHO if FALSE, rho will not be estimated
+#' @param num.iter max number of iterations
+#' @param thresholds vector of thresholds for betas and rho
 #'
-#' @return matrix of parameters (probabilities and rho)
+#' @return list containing estimates (probabilities and rho) and number of iterations
 #' @export
-IterativeFunction <- function(num.iter, thresholds, dat, RHO=FALSE) {
+IterativeFunction <- function(dat, RHO = FALSE, num.iter = 10, thresholds = NULL) {
   n <- dim(dat)[[2]]
+  if (is.null(thresholds)) thresholds <- rep(0.00000001, n)
+
   m <- n - 1
   betas.prev <- numeric(m) + 1
   rho.prev <- 0
@@ -57,8 +59,9 @@ IterativeFunction <- function(num.iter, thresholds, dat, RHO=FALSE) {
   }
 
   p.vec <- exp(betas) / (1 + sum(exp(betas)))
-  params.mat <- c(p.vec, 1 - sum(p.vec), rho, iter)
-  names(params.mat) <- c( sprintf("P%d", seq(1:n)), "Rho", "Num. Iterations" )
+  estimates <- c(p.vec, 1 - sum(p.vec), rho)
+  names(estimates) <- c(sprintf("P%d", seq(1:n)), "Rho")
+  out <- list(estimates = estimates, num.iter = iter)
 
-  params.mat
+  out
 }

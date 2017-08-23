@@ -4,19 +4,19 @@
 \alias{IterativeFunction}
 \title{Iterative GEE Function}
 \usage{
-IterativeFunction(num.iter, thresholds, dat, RHO = FALSE)
+IterativeFunction(dat, RHO = FALSE, num.iter = 10, thresholds = NULL)
 }
 \arguments{
-\item{num.iter}{max number of iterations}
-
-\item{thresholds}{vector of thresholds for betas and rho}
-
 \item{dat}{matrix of multinomial clusters}
 
 \item{RHO}{if FALSE, rho will not be estimated}
+
+\item{num.iter}{max number of iterations}
+
+\item{thresholds}{vector of thresholds for betas and rho}
 }
 \value{
-matrix of parameters (probabilities and rho)
+list containing estimates (probabilities and rho) and number of iterations
 }
 \description{
 Iteratively finds coefficients and overdispersion parameter using
