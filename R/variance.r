@@ -1,4 +1,4 @@
-#' Get GEE Identity Co-Variance Matrix
+#' Get GEE identity Co-Variance Matrix
 #'
 #' Calculates GEE identity variance co-variance matrix.
 #'
@@ -8,7 +8,6 @@
 #'
 #' @return matrix of covariance
 #' @export
-# GetIdentityVarCov <- function (p.vec, rho, dat) {
 get_var_ident <- function (p.vec, rho, dat) {
   n <- dim(dat)[[2]]  # dimensions of multinom
   m <- n - 1  # order of multinom
@@ -39,6 +38,16 @@ get_var_ident <- function (p.vec, rho, dat) {
   cov.mat
 }
 
+#' Get GEE glogit Co-Variance Matrix
+#'
+#' Calculates GEE glogit variance co-variance matrix.
+#'
+#' @param betas vector of betas
+#' @param rho overdispersion parameter
+#' @param dat matrix of multinomial clusters
+#'
+#' @return matrix of covariance
+#' @export
 get_var_glogit <- function(betas, rho, dat) {
   n <- dim(dat)[[2]]  # dimensions of multinom
   m <- n - 1  # order of multinom
@@ -72,4 +81,8 @@ get_var_glogit <- function(betas, rho, dat) {
 
   cov.mat <- ( (sum(ni) - 1) / (sum(ni) - m) ) * (num.clus / (num.clus - 1)) * ( solve(bi) %*% mi %*% solve(bi) )
   cov.mat
+}
+
+get_bi_var <- function(var.mat) {
+  var.mat[1, 1] + var.mat[2, 2] - 2 * var.mat[1, 2]
 }

@@ -1,4 +1,4 @@
-#' GMO
+#' GMO - General Multinomial Overdisperion Model
 #'
 #' Creates an General Multinomial Overdispersion Model for the given data
 #'
@@ -15,14 +15,16 @@
 #' dat <- matrix(c(1, 1, 1, 3, 0, 0, 2, 1, 0), 3, byrow = TRUE)
 #' gom(dat)
 gmo <- function (dat, corstr = "independence", link = "glogit", ...) {
+  if (!is.matrix(dat))
+    stop("dat must be a matrix")
   if (!(corstr %in% c("independence", "exchangeable")))
     stop("corstr must be one of: independence, exchangeable")
   if (!(link %in% c("glogit", "identity")))
     stop("link must be one of: glogit, identity")
 
   RHO <- (corstr == "exchangeable")
-  ndim <- ncol(dat)
-  out <- list()
+  ndim <- dim(dat)[[2]]
+  out <- list(ndim = ndim)
 
   estimates <- iterative_function(dat = dat, RHO = RHO)
   out$num.iter <- estimates$num.iter
