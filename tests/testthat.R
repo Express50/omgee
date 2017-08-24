@@ -1,4 +1,4 @@
 library(testthat)
-library(multinom)
+library(omgee)
 
-test_check("multinom")
+test_check("omgee")

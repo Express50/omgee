@@ -7,7 +7,7 @@
 #' @param dat matrix of multinomial clusters
 #'
 #' @return estimating equations for betas
-CreateBetaEquations <- function (betas, rho, dat) {
+create_beta_equations <- function (betas, rho, dat) {
   n <- dim(dat)[[2]]  # dimensions of multinom
   m <- n - 1  # order of multinom
   ni <- rowSums(dat) # cluster sizes
@@ -39,7 +39,7 @@ CreateBetaEquations <- function (betas, rho, dat) {
 #' @param dat matrix of multinomial clusters
 #'
 #' @return estimating equations for rho
-CreateRhoEquations <- function (rho, betas, dat) {
+create_rho_equations <- function (rho, betas, dat) {
   n <- dim(dat)[[2]]  # dimensions of multinom
   m <- n - 1  # order of multinom
   ni <- rowSums(dat) # cluster sizes

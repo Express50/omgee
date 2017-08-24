@@ -1,5 +1,5 @@
 exportPattern("^[[:alpha:]]+")
-export(IterativeFunction)
+export(gmo)
 
 importFrom("psych", "tr")
 importFrom("rootSolve", "multiroot")

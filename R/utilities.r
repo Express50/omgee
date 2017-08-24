@@ -1,15 +1,3 @@
-#' Column Variances
-#'
-#' Calculate variance for each column of given matrix
-#'
-#' @param x matrix
-#' @param na.rm
-#' @param dims
-#' @param unbiased
-#' @param SumSquares
-#' @param twopass
-#'
-#' @return
 colVars <- function(x, na.rm=FALSE, dims=1, unbiased=TRUE, SumSquares=FALSE,
                     twopass=FALSE) {
   if (SumSquares) return(colSums(x ^ 2, na.rm, dims))
@@ -27,6 +15,6 @@ colVars <- function(x, na.rm=FALSE, dims=1, unbiased=TRUE, SumSquares=FALSE,
   (colSums(x ^ 2, na.rm, dims) - colSums(x, na.rm, dims) ^ 2 / N) / Nm1
 }
 
-GetConfInt <- function (estimate, std.error) {
+get_conf_int <- function (estimate, std.error) {
   cbind(estimate - 1.96 * std.error, estimate + 1.96 * std.error)
 }
