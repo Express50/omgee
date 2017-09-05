@@ -13,7 +13,7 @@
 #'
 #' @examples
 #' dat <- matrix(c(1, 1, 1, 3, 0, 0, 2, 1, 0), 3, byrow = TRUE)
-#' gom(dat)
+#' gmo(dat)
 gmo <- function (dat, corstr = "independence", link = "glogit", ...) {
   if (!is.matrix(dat))
     stop("dat must be a matrix")
@@ -28,6 +28,7 @@ gmo <- function (dat, corstr = "independence", link = "glogit", ...) {
 
   estimates <- iterative_function(dat = dat, RHO = RHO)
   out$num.iter <- estimates$num.iter
+  out$error <- estimates$error ## TEMP: FOR TESTING
   if (RHO) out$rho <- estimates$rho
 
   if (link == "glogit") {

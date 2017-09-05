@@ -21,6 +21,7 @@ iterative_function <- function(dat, RHO = FALSE, max.iter = 10, thresholds = NUL
   rho <- 100 * thresholds[n]
 
   iter <- 0
+  e <- FALSE
 
   # in this mode, assume rho to be 0
   if (RHO == FALSE) {
@@ -48,16 +49,26 @@ iterative_function <- function(dat, RHO = FALSE, max.iter = 10, thresholds = NUL
       betas <- db2$root
       rho.prev <- rho
       # solve rho equations
-      db3 <- uniroot(f = create_rho_equations,
-                     interval = c(0, 1),
-                     betas = betas,
-                     dat = dat)
+      db3 <- tryCatch(uniroot(f = create_rho_equations,
+                              interval = c(0, 1),
+                              betas = betas,
+                              dat = dat),
+                      error = function (err) {
+                        warning("rho couldn't be estimated, try using gmo(dat, corstr = \"independence\")",
+                                call. = FALSE,
+                                immediate. = TRUE)
+                        return(NA)
+                      })
+
+      # print(db3)
+      if (!is.list(db3) && is.na(db3)) {e <- TRUE; break}
+
       # update rho
       rho <- db3$root
       iter <- iter + 1
     }
   }
 
-  out <- list(betas = betas, rho = rho, num.iter = iter)
+  out <- list(betas = betas, rho = rho, num.iter = iter, error = e)
   out
 }
