@@ -7,7 +7,7 @@ bi <- function (gmo) {
   out <- list()
   out$bi <- gmo$p.vec[2] - gmo$p.vec[1]
   out$var <- get_bi_var(gmo$var.mat)
-  out$ci <- get_conf_int(out$bi, out$var)
+  out$ci <- get_conf_int(out$bi, sqrt(out$var))
 
   class(out) <- "bi"
 

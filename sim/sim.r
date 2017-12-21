@@ -4,6 +4,7 @@ library(OverdispersionModelsInR)
 run_simulation <- function(num.sim, p.vec, rho, num.clus, clus.size, ...) {
   ndim <- length(p.vec)
   mord <- ndim - 1
+  bi <- p.vec[1] - p.vec[2]
 
   dm.err <- 0
   dm.est.mat <- matrix(NA, num.sim, ndim + 1)
@@ -13,11 +14,15 @@ run_simulation <- function(num.sim, p.vec, rho, num.clus, clus.size, ...) {
   gee.ind.est <- matrix(0, num.sim, ndim)
   gee.ind.se <- matrix(0, num.sim, ndim - 1)
   gee.ind.ci <- matrix(0, num.sim, 3)
+  gee.ind.bi <- matrix(0, num.sim, 1)
+  gee.ind.bi.ci <- matrix(0, num.sim, 3)
 
   gee.exch.err <- 0
   gee.exch.est <- matrix(NA, num.sim, ndim + 1)
   gee.exch.se <- matrix(NA, num.sim, ndim - 1)
   gee.exch.ci <- matrix(NA, num.sim, 3)
+  gee.exch.bi <- matrix(0, num.sim, 1)
+  gee.exch.bi.ci <- matrix(0, num.sim, 3)
 
   for (i in 1:num.sim) {
       if (i %% 100 == 0) cat(sprintf("Running simulation rep %d\n", i))
@@ -30,24 +35,34 @@ run_simulation <- function(num.sim, p.vec, rho, num.clus, clus.size, ...) {
 
       ind <- gmo(dat, link = "identity")
       gee.ind.est[i, ] <- ind$p.vec
-      ind.se <- diag(sqrt(ind$var.mat))
+      ind.se <- sqrt(diag(ind$var.mat))
       ind.ci <- get_conf_int(ind$p.vec[1], ind.se[1])
       gee.ind.se[i, ] <- ind.se
       gee.ind.ci[i, ] <- c(ind.ci,
                            ind.ci[1] <= p.vec[1] && p.vec[1] <= ind.ci[2])
+      ind.bi <- bi(ind)
+      bi.ci <- ind.bi$ci
+      gee.ind.bi[i, ] <- ind.bi$bi
+      gee.ind.bi.ci[i, ] <- c(bi.ci,
+                              bi.ci[1] <= bi && bi <= bi.ci[2])
 
       exch <- gmo(dat, corstr = "exchangeable", link="identity", ...)
 
       if (exch$error) {
         gee.exch.err <- gee.exch.err + 1
       } else {
-        exch.se <- diag(sqrt(exch$var.mat))
+        exch.se <- sqrt(diag(exch$var.mat))
         exch.ci <- get_conf_int(exch$p.vec[1], exch.se[1])
 
         gee.exch.est[i, ] <- c(exch$p.vec, exch$rho)
         gee.exch.se[i, ] <- exch.se
         gee.exch.ci[i, ] <- c(exch.ci,
                               exch.ci[1] <= p.vec[1] && p.vec[1] <= exch.ci[2])
+        exch.bi <- bi(exch)
+        bi.ci <- exch.bi$ci
+        gee.exch.bi[i, ] <- exch.bi$bi
+        gee.exch.bi.ci[i, ] <- c(bi.ci,
+                                bi.ci[1] <= bi && bi <= bi.ci[2])
       }
 
       dm.est <- tryCatch({
@@ -88,11 +103,15 @@ run_simulation <- function(num.sim, p.vec, rho, num.clus, clus.size, ...) {
     gee.ind.se = gee.ind.se,
     gee.ind.empse = gee.ind.empse,
     gee.ind.ci = gee.ind.ci,
+    gee.ind.bi = gee.ind.bi,
+    gee.ind.bi.ci = gee.ind.bi.ci,
     gee.exch.err = gee.exch.err,
     gee.exch.est = gee.exch.est,
     gee.exch.se = gee.exch.se,
     gee.exch.empse = gee.exch.empse,
     gee.exch.ci = gee.exch.ci,
+    gee.exch.bi = gee.exch.bi,
+    gee.exch.bi.ci = gee.exch.bi.ci,
     dm.err = dm.err,
     dm.est = dm.est.mat,
     dm.se = dm.se.mat,
@@ -101,11 +120,11 @@ run_simulation <- function(num.sim, p.vec, rho, num.clus, clus.size, ...) {
   ))
 }
 
-res <- run_simulation(num.sim = 500,
-                      # p.vec = c(0.3, 0.2, 0.4),
-                      p.vec = c(0.9, 0.1),
-                      rho = 0.7,
-                      num.clus = 100,
+res <- run_simulation(num.sim = 1000,
+                      p.vec = c(0.4, 0.4, 0.2),
+                      # p.vec = c(0.95, 0.05),
+                      rho = 0.3,
+                      num.clus = 50,
                       clus.size = 2)
 
 cat("gee.ind: \n")
@@ -113,12 +132,14 @@ print(colMeans(res$gee.ind.est))
 print(colMeans(res$gee.ind.se))
 print(res$gee.ind.empse)
 print(mean(res$gee.ind.ci[, 3]))
+print(mean(res$gee.ind.bi.ci[, 3]))
 #
 cat("gee.exch: \n")
 print(colMeans(res$gee.exch.est))
 print(colMeans(res$gee.exch.se))
 print(res$gee.exch.empse)
 print(mean(res$gee.exch.ci[, 3]))
+print(mean(res$gee.exch.bi.ci[, 3]))
 cat("num errors: ", res$gee.exch.err, "\n")
 #
 cat("dm: \n")
