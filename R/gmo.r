@@ -24,7 +24,8 @@ gmo <- function (dat, corstr = "independence", link = "glogit", ...) {
 
   RHO <- (corstr == "exchangeable")
   ndim <- dim(dat)[[2]]
-  out <- list(ndim = ndim)
+  num.clus <- dim(dat)[[1]]
+  out <- list(ndim = ndim, num.clus = num.clus)
 
   estimates <- iterative_function(dat = dat, RHO = RHO)
   out$num.iter <- estimates$num.iter
