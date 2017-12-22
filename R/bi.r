@@ -5,7 +5,7 @@ bi <- function (gmo) {
     stop("gmo must be for a trinomial dataset")
 
   out <- list()
-  out$bi <- gmo$p.vec[2] - gmo$p.vec[1]
+  out$bi <- gmo$p.vec[1] - gmo$p.vec[2]
   out$var <- get_bi_var(gmo$var.mat)
   out$ci <- get_conf_int(out$bi, sqrt(out$var))
 
