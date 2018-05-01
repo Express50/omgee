@@ -1,13 +1,14 @@
-bi <- function (gmo) {
+bi <- function (gmo, const.vec) {
   if (!(class(gmo) == "gmo.ident"))
     stop('gmo must be calculated using link=identity')
-  if (!(gmo$ndim == 3))
-    stop("gmo must be for a trinomial dataset")
+  m <- gmo$ndim - 1
+  # if (!(gmo$ndim == 3))
+  #   stop("gmo must be for a trinomial dataset")
 
   out <- list()
-  out$bi <- gmo$p.vec[1] - gmo$p.vec[2]
-  out$var <- get_bi_var(gmo$var.mat)
-  out$ci <- get_conf_int(out$bi, sqrt(out$var), gmo$num.clus)
+  out$bi <- sum(const.vec * gmo$p.vec[1:m])
+  out$var <- get_bi_var(gmo$var.mat, const.vec)
+  out$ci <- get_conf_int(out$bi, sqrt(out$var), gmo$num.clus - 1)
 
   class(out) <- "bi"
 

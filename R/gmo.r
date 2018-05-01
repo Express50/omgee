@@ -14,7 +14,7 @@
 #' @examples
 #' dat <- matrix(c(1, 1, 1, 3, 0, 0, 2, 1, 0), 3, byrow = TRUE)
 #' gmo(dat)
-gmo <- function (dat, corstr = "independence", link = "glogit", ...) {
+gmo <- function (dat, corstr = "independence", link = "glogit", flag="mK", ...) {
   if (!is.matrix(dat))
     stop("dat must be a matrix")
   if (!(corstr %in% c("independence", "exchangeable")))
@@ -27,10 +27,12 @@ gmo <- function (dat, corstr = "independence", link = "glogit", ...) {
   num.clus <- dim(dat)[[1]]
   out <- list(ndim = ndim, num.clus = num.clus)
 
-  estimates <- iterative_function(dat = dat, RHO = RHO)
+  estimates <- iterative_function(dat = dat, RHO = RHO, flag=flag)
   out$num.iter <- estimates$num.iter
   out$error <- estimates$error ## TEMP: FOR TESTING
-  if (RHO) out$rho <- estimates$rho
+  if (RHO) {
+    out$rho <- estimates$rho
+  }
 
   if (link == "glogit") {
     # return betas as estimates
@@ -47,14 +49,6 @@ gmo <- function (dat, corstr = "independence", link = "glogit", ...) {
 
     class(out) <- "gmo.ident"
   }
-  # out <- iterative_function(dat = dat, RHO = RHO, ...)
-  # p.vec <- unname(out$estimates[1:(ndim - 1)])
-  # rho <- unname(out$estimates[ndim + 1])
-  # out$var.mat <- get_var_ident(p.vec, rho, dat)
-  # out$conf.int <- get_conf_int(as.matrix(p.vec[1:(ndim - 1)]),
-  #                            as.matrix(sqrt(diag(out$var.mat))))
-  # rownames(out$conf.int) <- c(sprintf("P%d", seq(1:(ndim - 1))))
-  # colnames(out$conf.int) <- c("Lower", "Upper")
   out
 }
 

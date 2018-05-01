@@ -83,6 +83,6 @@ get_var_glogit <- function(betas, rho, dat) {
   cov.mat
 }
 
-get_bi_var <- function(var.mat) {
-  var.mat[1, 1] + var.mat[2, 2] - 2 * var.mat[1, 2]
+get_bi_var <- function(var.mat, const.vec) {
+  t(const.vec) %*% var.mat %*% const.vec
 }

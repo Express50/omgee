@@ -39,7 +39,7 @@ create_beta_equations <- function (betas, rho, dat) {
 #' @param dat matrix of multinomial clusters
 #'
 #' @return estimating equations for rho
-create_rho_equations <- function (rho, betas, dat) {
+create_rho_equations <- function (rho, betas, dat, flag) {
   n <- dim(dat)[[2]]  # dimensions of multinom
   m <- n - 1  # order of multinom
   ni <- rowSums(dat) # cluster sizes
@@ -57,6 +57,13 @@ create_rho_equations <- function (rho, betas, dat) {
   var.mat <- diag(p.vec, m) - p.vec %*% t(p.vec)
   r.vec <- dat[, 1:m] - ni * p.mat
 
-  res <- tr( r.vec %*% solve(var.mat) %*% t( (1 / dispi) * r.vec) ) - m * (num.clus - 1)
+  if (flag == "mK") {
+    res <- tr( r.vec %*% solve(var.mat) %*% t( (1 / dispi) * r.vec) ) - m * num.clus
+  } else if (flag == "m(K - 1)") {
+    res <- tr( r.vec %*% solve(var.mat) %*% t( (1 / dispi) * r.vec) ) - m * (num.clus - 1)
+  } else if (flag == "m(K - 1) - 1") {
+    res <- tr( r.vec %*% solve(var.mat) %*% t( (1 / dispi) * r.vec) ) - m * (num.clus - 1) - 1
+  }
+
   res
 }
