@@ -2,6 +2,8 @@ bi <- function (gmo, const.vec) {
   if (!(class(gmo) == "gmo.ident"))
     stop('gmo must be calculated using link=identity')
   m <- gmo$ndim - 1
+  if (!(length(const.vec) == m))
+    stop('constant vector must be same dimension as order of multinom')
   # if (!(gmo$ndim == 3))
   #   stop("gmo must be for a trinomial dataset")
 
