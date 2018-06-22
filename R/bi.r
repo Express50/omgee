@@ -8,7 +8,7 @@ bi <- function (gmo, const.vec = NULL) {
   out <- list()
 
   if (m == 1) {
-    out$bi <- 2*gmo$p.vec[1] - 1
+    out$bi <- const.vec %*% gmo$p.vec - 1
     out$var <- 4*gmo$var.mat
   } else {
     out$bi <- const.vec %*% gmo$p.vec[1:m]
