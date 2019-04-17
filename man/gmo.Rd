@@ -2,7 +2,7 @@
 % Please edit documentation in R/gmo.r
 \name{gmo}
 \alias{gmo}
-\title{GMO}
+\title{GMO - General Multinomial Overdisperion Model}
 \usage{
 gmo(dat, corstr = "independence", link = "glogit", ...)
 }
@@ -20,8 +20,4 @@ a GMO object
 }
 \description{
 Creates an General Multinomial Overdispersion Model for the given data
-}
-\examples{
-dat <- matrix(c(1, 1, 1, 3, 0, 0, 2, 1, 0), 3, byrow = TRUE)
-gom(dat)
 }

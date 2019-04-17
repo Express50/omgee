@@ -4,7 +4,8 @@
 \alias{iterative_function}
 \title{Iterative GEE Function}
 \usage{
-iterative_function(dat, RHO = FALSE, max.iter = 10, thresholds = NULL)
+iterative_function(dat, RHO = FALSE, max.iter = 10,
+  thresholds = NULL)
 }
 \arguments{
 \item{dat}{matrix of multinomial clusters}

@@ -10,7 +10,7 @@
 #'
 #' @return list containing estimates (probabilities and rho) and number of iterations
 #' @export
-iterative_function <- function(dat, RHO = FALSE, max.iter = 10, thresholds = NULL, flag="mK") {
+iterative_function <- function(dat, RHO = FALSE, max.iter = 10, thresholds = NULL) {
   n <- dim(dat)[[2]]
   if (is.null(thresholds)) thresholds <- rep(0.00000001, n)
 
@@ -52,8 +52,7 @@ iterative_function <- function(dat, RHO = FALSE, max.iter = 10, thresholds = NUL
       db3 <- tryCatch(uniroot(f = create_rho_equations,
                               interval = c(0, 1),
                               betas = betas,
-                              dat = dat,
-                              flag=flag),
+                              dat = dat),
                       error = function (err) {
                         warning("rho couldn't be estimated, try using gmo(dat, corstr = \"independence\")",
                                 call. = FALSE,

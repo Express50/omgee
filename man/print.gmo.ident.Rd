@@ -17,8 +17,3 @@ None
 \description{
 Prints GMO identity object
 }
-\examples{
-dat <- matrix(c(1, 1, 1, 3, 0, 0, 2, 1, 0), 3, byrow = TRUE)
-res <- gom(dat, link = "identity")
-print(res)
-}

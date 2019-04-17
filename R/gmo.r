@@ -10,11 +10,7 @@
 #'
 #' @return a GMO object
 #' @export
-#'
-#' @examples
-#' dat <- matrix(c(1, 1, 1, 3, 0, 0, 2, 1, 0), 3, byrow = TRUE)
-#' gmo(dat)
-gmo <- function (dat, corstr = "independence", link = "glogit", flag="mK", ...) {
+gmo <- function (dat, corstr = "independence", link = "glogit", ...) {
   if (!is.matrix(dat))
     stop("dat must be a matrix")
   if (!(corstr %in% c("independence", "exchangeable")))
@@ -27,7 +23,7 @@ gmo <- function (dat, corstr = "independence", link = "glogit", flag="mK", ...) 
   num.clus <- dim(dat)[[1]]
   out <- list(ndim = ndim, num.clus = num.clus)
 
-  estimates <- iterative_function(dat = dat, RHO = RHO, flag=flag)
+  estimates <- iterative_function(dat = dat, RHO = RHO)
   out$num.iter <- estimates$num.iter
   out$error <- estimates$error ## TEMP: FOR TESTING
   if (RHO) {
@@ -61,11 +57,6 @@ gmo <- function (dat, corstr = "independence", link = "glogit", flag="mK", ...) 
 #'
 #' @return None
 #' @export
-#'
-#' @examples
-#' dat <- matrix(c(1, 1, 1, 3, 0, 0, 2, 1, 0), 3, byrow = TRUE)
-#' res <- gom(dat, link = "glogit")
-#' print(res)
 print.gmo.glogit <- function(x, ...) {
   cat('Number of Iterations: ', x$num.iter, '\n')
 
@@ -91,11 +82,6 @@ print.gmo.glogit <- function(x, ...) {
 #'
 #' @return None
 #' @export
-#'
-#' @examples
-#' dat <- matrix(c(1, 1, 1, 3, 0, 0, 2, 1, 0), 3, byrow = TRUE)
-#' res <- gom(dat, link = "identity")
-#' print(res)
 print.gmo.ident <- function(x, ...) {
   cat('Number of Iterations: ', x$num.iter, '\n')
 
