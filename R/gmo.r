@@ -1,16 +1,27 @@
 #' GMO - General Multinomial Overdisperion Model
 #'
-#' Creates an General Multinomial Overdispersion Model for the given data
+#' Creates an General Multinomial Overdispersion Model for the given data matrix.
+#' The data passed in should be in the form of multinomial clusters.
 #'
+#' The `corstr` option specifies the intra-cluster correlation structure:
+#'    - `independence` is used when there is no intra-cluster correlation (i.e.: rho = 0) (default)
+#'    - `exchangebale` is used when there is intra-cluster correlation
+#'
+#' The `link` option specifies the format of the output:
+#'    - `glogit` option gives the estimates and variance matrix in terms of beta (real-valued) (default)
+#'    - `identity` option gives the estimates and variance matrix in terms of pi's in [0, 1]
 #'
 #' @param dat matrix of multinomial clusters
 #' @param corstr one of: independence, exchangeable
 #' @param link one of: glogit, identity
-#' @param ... parameters to be passed on to \code{iterative_function}
+#'
+#' @examples
+#' dat <- matrix(c(6, 4, 4, 3, 1, 2, 2, 2, 1, 3, 15, 6, 5, 8, 4, 2, 2, 1, 13, 10, 8, 1, 3, 2, 10, 22, 11, 31, 10, 14), nrow=10, ncol=3, byrow=TRUE)
+#' gmo(dat, link='identity')
 #'
 #' @return a GMO object
 #' @export
-gmo <- function (dat, corstr = "independence", link = "glogit", ...) {
+gmo <- function (dat, corstr = "independence", link = "glogit") {
   if (!is.matrix(dat))
     stop("dat must be a matrix")
   if (!(corstr %in% c("independence", "exchangeable")))
@@ -50,7 +61,7 @@ gmo <- function (dat, corstr = "independence", link = "glogit", ...) {
 
 #' Print GMO glogit
 #'
-#' Prints GMO glogit object
+#' Prints GMO glogit object.
 #'
 #' @param x gom glogit object
 #' @param ... additional params to \code{print(x, ...)}
@@ -75,7 +86,7 @@ print.gmo.glogit <- function(x, ...) {
 
 #' Print GMO identity
 #'
-#' Prints GMO identity object
+#' Prints GMO identity object.
 #'
 #' @param x gom identity object
 #' @param ... additional params to \code{print(x, ...)}
@@ -97,6 +108,3 @@ print.gmo.ident <- function(x, ...) {
   cat('\nVar-Covar Matrix: \n')
   print(round(x$var.mat, 6), ...)
 }
-
-registerS3method("print", "gmo.glogit", "print.gmo.glogit")
-registerS3method("print", "gmo.ident", "print.gmo.ident")

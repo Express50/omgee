@@ -4,7 +4,7 @@
 \alias{gmo}
 \title{GMO - General Multinomial Overdisperion Model}
 \usage{
-gmo(dat, corstr = "independence", link = "glogit", ...)
+gmo(dat, corstr = "independence", link = "glogit")
 }
 \arguments{
 \item{dat}{matrix of multinomial clusters}
@@ -12,12 +12,25 @@ gmo(dat, corstr = "independence", link = "glogit", ...)
 \item{corstr}{one of: independence, exchangeable}
 
 \item{link}{one of: glogit, identity}
-
-\item{...}{parameters to be passed on to \code{iterative_function}}
 }
 \value{
 a GMO object
 }
 \description{
-Creates an General Multinomial Overdispersion Model for the given data
+Creates an General Multinomial Overdispersion Model for the given data matrix.
+The data passed in should be in the form of multinomial clusters.
+}
+\details{
+The `corstr` option specifies the intra-cluster correlation structure:
+   - `independence` is used when there is no intra-cluster correlation (i.e.: rho = 0) (default)
+   - `exchangebale` is used when there is intra-cluster correlation
+
+The `link` option specifies the format of the output:
+   - `glogit` option gives the estimates and variance matrix in terms of beta (real-valued) (default)
+   - `identity` option gives the estimates and variance matrix in terms of pi's in [0, 1]
+}
+\examples{
+dat <- matrix(c(6, 4, 4, 3, 1, 2, 2, 2, 1, 3, 15, 6, 5, 8, 4, 2, 2, 1, 13, 10, 8, 1, 3, 2, 10, 22, 11, 31, 10, 14), nrow=10, ncol=3, byrow=TRUE)
+gmo(dat, link='identity')
+
 }

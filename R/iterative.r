@@ -1,3 +1,5 @@
+library(rootSolve)
+
 #' Iterative GEE Function
 #'
 #' Iteratively finds coefficients and overdispersion parameter using
@@ -9,7 +11,6 @@
 #' @param thresholds vector of thresholds for betas and rho
 #'
 #' @return list containing estimates (probabilities and rho) and number of iterations
-#' @export
 iterative_function <- function(dat, RHO = FALSE, max.iter = 10, thresholds = NULL) {
   n <- dim(dat)[[2]]
   if (is.null(thresholds)) thresholds <- rep(0.00000001, n)

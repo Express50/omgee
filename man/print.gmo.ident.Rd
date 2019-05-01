@@ -15,5 +15,5 @@
 None
 }
 \description{
-Prints GMO identity object
+Prints GMO identity object.
 }

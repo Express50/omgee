@@ -7,7 +7,6 @@
 #' @param dat matrix of multinomial clusters
 #'
 #' @return matrix of covariance
-#' @export
 get_var_ident <- function (p.vec, rho, dat) {
   n <- dim(dat)[[2]]  # dimensions of multinom
   m <- n - 1  # order of multinom
@@ -47,7 +46,6 @@ get_var_ident <- function (p.vec, rho, dat) {
 #' @param dat matrix of multinomial clusters
 #'
 #' @return matrix of covariance
-#' @export
 get_var_glogit <- function(betas, rho, dat) {
   n <- dim(dat)[[2]]  # dimensions of multinom
   m <- n - 1  # order of multinom

@@ -15,5 +15,5 @@
 None
 }
 \description{
-Prints GMO glogit object
+Prints GMO glogit object.
 }
