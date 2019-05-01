@@ -2,7 +2,7 @@ Package: omgee
 Type: Package
 Title: Overdispersion Models using Generalized Estimating Equations
 Version: 1.0
-Author: Victoria Landsman, David Landsman
+Author: David Landsman
 Maintainer: David Landsman <david.landsman@mail.utoronto.ca>
 Description: Provides an implementation of a GEE solver for estimating 
   the parameters of an overdispersion model. The solver supports data with
