@@ -1,5 +1,10 @@
 # omgee
-This R package provides an implementation of the GEE method for estimating multinomial probabilties for clustered data, for independent and exchangeable correlation structure. For more details about the methodology see [citation].
+This R package provides an implementation of the GEE method for estimating multinomial probabilties for clustered data, for independent and exchangeable correlation structure.
+
+## How to cite
+```
+Landsman V., Landsman D., Li C.S., Bang H. Overdispersion models for correlated multinomial data: Applications to blinding assessment. Statistics in Medicine. 2019; 38: 4963– 4976. https://doi.org/10.1002/sim.8344
+```
 
 ## Installation
 There are a few methods available for installing the package. You need to have the `devtools` package installed to use these methods:
